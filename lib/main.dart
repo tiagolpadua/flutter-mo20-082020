@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 
 void main() => runApp(
-      Column(
-        children: <Widget>[
-          Text('Deliver features faster', textDirection: TextDirection.ltr),
-          Text('Craft beautiful UIs', textDirection: TextDirection.ltr),
-          Text('Craft beautiful UIs', textDirection: TextDirection.ltr),
-          Column(children: <Widget>[
-            Text(
-              'Craft beautiful UIs',
-              textDirection: TextDirection.ltr,
-            ),
-          ])
-        ],
-      ),
+      MaterialApp(home: Scaffold(
+        body: Card(
+          child: Column(
+            children: <Widget>[
+              Text('testedasdasdasdasdasdasdasdasdas'),
+              Text('testedasdasdasd'),
+              Text('test'),
+              Text('test'),
+              Text('test'),
+              Text('test'),
+              Text('test'),
+            ],
+          ),
+        ),
+        appBar: AppBar(
+          title: Text('Transfers'),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+        ),
+      )),
     );
