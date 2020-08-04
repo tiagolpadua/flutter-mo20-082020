@@ -85,28 +85,38 @@ class Editor extends StatelessWidget {
 }
 
 class TransfersList extends StatelessWidget {
+  final List<Transfer> _transfers = List();
+
   @override
   Widget build(BuildContext context) {
+
+    _transfers.add(Transfer(100.0, 1000));
+    _transfers.add(Transfer(100.0, 1000));
+    _transfers.add(Transfer(100.0, 1000));
+    _transfers.add(Transfer(100.0, 1000));
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Transfers'),
       ),
-      body: Column(
-        children: <Widget>[
-          TransferItem(Transfer(100.0, 1000)),
-          TransferItem(Transfer(200.0, 2000)),
-          TransferItem(Transfer(300.0, 3001)),
-        ],
+      body: ListView.builder(
+        itemCount: _transfers.length,
+        itemBuilder: (context, index) {
+          final transfer = _transfers[index];
+          return TransferItem(transfer);
+        },
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          final Future future = Navigator.push(context, MaterialPageRoute(builder: (context) {
+          final Future future =
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
             return TransferForm();
           }));
           future.then((transferReceived) {
             debugPrint('arrived at the then of the future');
             debugPrint('$transferReceived');
+            _transfers.add(transferReceived);
           });
         },
       ),
