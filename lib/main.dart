@@ -14,7 +14,8 @@ class BytebankApp extends StatelessWidget {
 }
 
 class TransferForm extends StatelessWidget {
-  final TextEditingController _accountNumberFieldController = TextEditingController();
+  final TextEditingController _accountNumberFieldController =
+      TextEditingController();
   final TextEditingController _valueFieldController = TextEditingController();
 
   @override
@@ -25,47 +26,58 @@ class TransferForm extends StatelessWidget {
       ),
       body: Column(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: _accountNumberFieldController,
-              style: TextStyle(
-                fontSize: 24.0,
-              ),
-              decoration: InputDecoration(
-                  icon: Icon(Icons.monetization_on),
-                  labelText: 'Account number',
-                  hintText: '0000'),
-              keyboardType: TextInputType.number,
-            ),
+          Editor(
+            controller: _accountNumberFieldController,
+            label: 'Account number',
+            hint: '00000',
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
+          Editor(
               controller: _valueFieldController,
-              style: TextStyle(
-                fontSize: 24.0,
-              ),
-              decoration: InputDecoration(
-                  icon: Icon(Icons.monetization_on),
-                  labelText: 'Value',
-                  hintText: '0.00'),
-              keyboardType: TextInputType.number,
-            ),
-          ),
+              label: 'Value',
+              hint: '0.00',
+              icon: Icons.monetization_on),
           RaisedButton(
             child: Text('Confirm'),
-            onPressed: () {
-              debugPrint('clicked on confirm');
-              final int accountNumber = int.tryParse(_accountNumberFieldController.text);
-              final double value = double.tryParse(_valueFieldController.text);
-              if(accountNumber != null && value != null) {
-                final transferCreated = Transfer(value, accountNumber);
-                debugPrint('$transferCreated');
-              }
-            },
+            onPressed: () => _createTransfer(),
           ),
         ],
+      ),
+    );
+  }
+
+  void _createTransfer() {
+    final int accountNumber = int.tryParse(_accountNumberFieldController.text);
+    final double value = double.tryParse(_valueFieldController.text);
+    if (accountNumber != null && value != null) {
+      final transferCreated = Transfer(value, accountNumber);
+      debugPrint('$transferCreated');
+    }
+  }
+}
+
+class Editor extends StatelessWidget {
+  final TextEditingController controller;
+  final String label;
+  final String hint;
+  final IconData icon;
+
+  Editor({this.controller, this.label, this.hint, this.icon});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: TextField(
+        controller: controller,
+        style: TextStyle(
+          fontSize: 24.0,
+        ),
+        decoration: InputDecoration(
+          icon: icon != null ? Icon(icon) : null,
+          labelText: label,
+          hintText: hint,
+        ),
+        keyboardType: TextInputType.number,
       ),
     );
   }
