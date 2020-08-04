@@ -84,25 +84,26 @@ class Editor extends StatelessWidget {
   }
 }
 
-class TransfersList extends StatelessWidget {
+class TransfersList extends StatefulWidget{
   final List<Transfer> _transfers = List();
 
   @override
+  State<StatefulWidget> createState() {
+    return TransfersListState();
+  }
+}
+
+class TransfersListState extends State<TransfersList> {
+  @override
   Widget build(BuildContext context) {
-
-    _transfers.add(Transfer(100.0, 1000));
-    _transfers.add(Transfer(100.0, 1000));
-    _transfers.add(Transfer(100.0, 1000));
-    _transfers.add(Transfer(100.0, 1000));
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Transfers'),
       ),
       body: ListView.builder(
-        itemCount: _transfers.length,
+        itemCount: widget._transfers.length,
         itemBuilder: (context, index) {
-          final transfer = _transfers[index];
+          final transfer = widget._transfers[index];
           return TransferItem(transfer);
         },
       ),
@@ -110,13 +111,15 @@ class TransfersList extends StatelessWidget {
         child: Icon(Icons.add),
         onPressed: () {
           final Future future =
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
             return TransferForm();
           }));
           future.then((transferReceived) {
             debugPrint('arrived at the then of the future');
             debugPrint('$transferReceived');
-            _transfers.add(transferReceived);
+            setState(() {
+              widget._transfers.add(transferReceived);
+            });
           });
         },
       ),
