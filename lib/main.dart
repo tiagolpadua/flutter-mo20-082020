@@ -13,6 +13,24 @@ class BytebankApp extends StatelessWidget {
   }
 }
 
+Route _createRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => TransferForm(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var begin = Offset(0.0, 1.0);
+      var end = Offset.zero;
+      var curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
+
 class TransferForm extends StatelessWidget {
   final TextEditingController _accountNumberFieldController =
       TextEditingController();
@@ -109,6 +127,9 @@ class TransfersList extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
+
+//          final Future future = Navigator.push(context, _createRoute());
+
           final Future future =
               Navigator.push(context, MaterialPageRoute(builder: (context) {
             return TransferForm();
