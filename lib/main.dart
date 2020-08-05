@@ -13,9 +13,15 @@ class BytebankApp extends StatelessWidget {
   }
 }
 
-class TransferForm extends StatelessWidget {
+class TransferForm extends StatefulWidget {
+  @override
+  _TransferFormState createState() => _TransferFormState();
+}
+
+class _TransferFormState extends State<TransferForm> {
   final TextEditingController _accountNumberFieldController =
       TextEditingController();
+
   final TextEditingController _valueFieldController = TextEditingController();
 
   @override
@@ -24,23 +30,25 @@ class TransferForm extends StatelessWidget {
       appBar: AppBar(
         title: Text('Creating Transfer'),
       ),
-      body: Column(
-        children: <Widget>[
-          Editor(
-            controller: _accountNumberFieldController,
-            label: 'Account number',
-            hint: '00000',
-          ),
-          Editor(
-              controller: _valueFieldController,
-              label: 'Value',
-              hint: '0.00',
-              icon: Icons.monetization_on),
-          RaisedButton(
-            child: Text('Confirm'),
-            onPressed: () => _createTransfer(context),
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Editor(
+              controller: _accountNumberFieldController,
+              label: 'Account number',
+              hint: '00000',
+            ),
+            Editor(
+                controller: _valueFieldController,
+                label: 'Value',
+                hint: '0.00',
+                icon: Icons.monetization_on),
+            RaisedButton(
+              child: Text('Confirm'),
+              onPressed: () => _createTransfer(context),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -53,6 +61,16 @@ class TransferForm extends StatelessWidget {
       debugPrint('$createdTransfer');
       Navigator.pop(context, createdTransfer);
     }
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    debugPrint('TransferForm dispose');
+    _accountNumberFieldController.dispose();
+    _valueFieldController.dispose();
+    super.dispose();
   }
 }
 
@@ -118,7 +136,9 @@ class TransfersListState extends State<TransfersList> {
             debugPrint('arrived at the then of the future');
             debugPrint('$transferReceived');
             setState(() {
-              widget._transfers.add(transferReceived);
+              if(transferReceived != null) {
+                widget._transfers.add(transferReceived);
+              }
             });
           });
         },
