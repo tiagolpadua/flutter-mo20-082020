@@ -128,12 +128,12 @@ class TransfersList extends StatelessWidget {
         child: Icon(Icons.add),
         onPressed: () {
 
-//          final Future future = Navigator.push(context, _createRoute());
+          final Future future = Navigator.push(context, _createRoute());
 
-          final Future future =
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return TransferForm();
-          }));
+//          final Future future =
+//              Navigator.push(context, MaterialPageRoute(builder: (context) {
+//            return TransferForm();
+//          }));
           future.then((transferReceived) {
             debugPrint('arrived at the then of the future');
             debugPrint('$transferReceived');
