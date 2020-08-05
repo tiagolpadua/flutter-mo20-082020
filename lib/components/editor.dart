@@ -5,8 +5,9 @@ class Editor extends StatelessWidget {
   final String label;
   final String hint;
   final IconData icon;
+  final bool hasError;
 
-  Editor({this.controller, this.label, this.hint, this.icon});
+  Editor({this.controller, this.label, this.hint, this.icon, this.hasError});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +20,12 @@ class Editor extends StatelessWidget {
         ),
         decoration: InputDecoration(
           icon: icon != null ? Icon(icon) : null,
-          labelText: label,
+          labelText: label + '$hasError',
           hintText: hint,
+          focusedBorder: new OutlineInputBorder(
+            borderSide:
+                new BorderSide(color: hasError ? Colors.red : Colors.teal),
+          ),
         ),
         keyboardType: TextInputType.number,
       ),
