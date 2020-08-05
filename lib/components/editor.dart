@@ -20,7 +20,7 @@ class Editor extends StatelessWidget {
         ),
         decoration: InputDecoration(
           icon: icon != null ? Icon(icon) : null,
-          labelText: label + '$hasError',
+          labelText: label,
           hintText: hint,
           focusedBorder: new OutlineInputBorder(
             borderSide:
