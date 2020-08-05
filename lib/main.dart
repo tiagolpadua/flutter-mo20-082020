@@ -27,14 +27,25 @@ class TransferForm extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: _accountNumberFieldController,
-              style: TextStyle(fontSize: 24.0),
-              decoration: InputDecoration(
-                labelText: 'Account number',
-                hintText: '0000',
-              ),
-              keyboardType: TextInputType.number,
+            child: Column(
+              children: <Widget>[
+                TextField(
+                  controller: _accountNumberFieldController,
+                  style: TextStyle(fontSize: 24.0),
+
+                  // Aditional feature one: the account number field must be selected when the form is shown
+                  autofocus: true,
+
+                  decoration: InputDecoration(
+                    labelText: 'Account number',
+                    hintText: '0000',
+                  ),
+                  onChanged: (value){
+                    print(value);
+                  },
+                  keyboardType: TextInputType.number,
+                ),
+              ],
             ),
           ),
           Padding(
@@ -53,13 +64,17 @@ class TransferForm extends StatelessWidget {
           RaisedButton(
             child: Text('Confirm'),
             onPressed: () {
-              debugPrint('Pressed!');
               final int accountNumber = int.tryParse(_accountNumberFieldController.text);
               final double value = double.tryParse(_valueFieldController.text);
 
               if(accountNumber != null && value != null) {
                 final transferCreated = Transfer(value, accountNumber);
                 debugPrint('$transferCreated');
+              } else {
+                // Aditional feature two: we must show a message informing the input validation problem (snackbar)
+                Scaffold.of(context).showSnackBar(SnackBar(
+                  content: Text("Invalid Values..."),
+                ));
               }
             },
           ),
