@@ -6,9 +6,15 @@ class BytebankApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: TransfersList(),
+      theme: ThemeData(
+        primaryColor: Colors.green[900],
+        accentColor: Colors.blueAccent[700],
+        buttonTheme: ButtonThemeData(
+          buttonColor: Colors.blueAccent[700],
+          textTheme: ButtonTextTheme.primary,
+        ),
       ),
+      home: TransfersList(),
     );
   }
 }
@@ -102,7 +108,7 @@ class Editor extends StatelessWidget {
   }
 }
 
-class TransfersList extends StatefulWidget{
+class TransfersList extends StatefulWidget {
   final List<Transfer> _transfers = List();
 
   @override
@@ -129,14 +135,14 @@ class TransfersListState extends State<TransfersList> {
         child: Icon(Icons.add),
         onPressed: () {
           final Future future =
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
             return TransferForm();
           }));
           future.then((transferReceived) {
             debugPrint('arrived at the then of the future');
             debugPrint('$transferReceived');
             setState(() {
-              if(transferReceived != null) {
+              if (transferReceived != null) {
                 widget._transfers.add(transferReceived);
               }
             });
