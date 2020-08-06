@@ -63,7 +63,7 @@ class _TransferFormState extends State<TransferForm> {
           children: <Widget>[
             Editor(
               controller: _accountNumberFieldController,
-              label: 'Account number ${_isAccountFieldDirty}',
+              label: 'Account number',
               hint: '0000',
               autofocus: true,
               onChanged: (value)  => _isAccountFieldDirty = true,
