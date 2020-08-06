@@ -6,7 +6,7 @@ class BytebankApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData.dark(),
+        // theme: ThemeData.dark(),
         home: Scaffold(
       body: TransfersList(),
     ));
@@ -19,10 +19,38 @@ class TransferForm extends StatefulWidget {
 }
 
 class _TransferFormState extends State<TransferForm> {
+  bool _isValueFieldValid = false;
+  bool _isAccountFieldValid = false;
+  bool _isValueFieldDirty = false;
+  bool _isAccountFieldDirty = false;
+
   final TextEditingController _accountNumberFieldController =
       TextEditingController();
 
   final TextEditingController _valueFieldController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _accountNumberFieldController.addListener(() {
+      _validateFields();
+    });
+    _valueFieldController.addListener(() {
+      _validateFields();
+    });
+  }
+
+  bool _isFormValid() {
+    return _isValueFieldValid && _isAccountFieldValid;
+  }
+
+  _validateFields() {
+    setState(() {
+      _isAccountFieldValid =
+          int.tryParse(_accountNumberFieldController.text) != null;
+      _isValueFieldValid = double.tryParse(_valueFieldController.text) != null;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,19 +63,23 @@ class _TransferFormState extends State<TransferForm> {
           children: <Widget>[
             Editor(
               controller: _accountNumberFieldController,
-              label: 'Account number',
+              label: 'Account number ${_isAccountFieldDirty}',
               hint: '0000',
               autofocus: true,
+              onChanged: (value)  => _isAccountFieldDirty = true,
+              hasError: _isAccountFieldDirty && !_isAccountFieldValid,
             ),
             Editor(
               controller: _valueFieldController,
               label: 'Value',
               hint: '0.00',
               icon: Icons.monetization_on,
+              onChanged: (value)  => _isValueFieldDirty = true,
+              hasError: _isValueFieldDirty && !_isValueFieldValid,
             ),
             RaisedButton(
               child: Text('Confirm'),
-              onPressed: () => _createTransfer(context),
+              onPressed: _isFormValid() ? () => _createTransfer(context) : null,
             ),
           ],
         ),
@@ -81,13 +113,17 @@ class Editor extends StatelessWidget {
   final String hint;
   final IconData icon;
   final bool autofocus;
+  final bool hasError;
+  final void Function(String) onChanged;
 
   Editor({
     @required this.controller,
     @required this.label,
     @required this.hint,
     this.icon,
+    this.onChanged,
     this.autofocus = false,
+    this.hasError = false,
   });
 
   @override
@@ -97,10 +133,15 @@ class Editor extends StatelessWidget {
       child: TextField(
         controller: controller,
         style: TextStyle(fontSize: 24.0),
+        onChanged: onChanged,
         decoration: InputDecoration(
           icon: icon != null ? Icon(this.icon) : null,
           labelText: label,
           hintText: hint,
+          focusedBorder: new OutlineInputBorder(
+            borderSide:
+                new BorderSide(color: hasError ? Colors.red : Colors.teal),
+          ),
         ),
         keyboardType: TextInputType.number,
         autofocus: autofocus,
