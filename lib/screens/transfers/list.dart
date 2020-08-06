@@ -1,6 +1,8 @@
 import 'package:bytebank/models/transfer.dart';
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
 
+import '../../main.dart';
 import 'form.dart';
 
 class TransfersList extends StatefulWidget {
@@ -17,28 +19,37 @@ class TransfersListState extends State<TransfersList> {
   Widget build(BuildContext context) {
     const _appBarTitle = 'Transfers';
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_appBarTitle),
-      ),
-      body: ListView.builder(
-        itemCount: widget._transfers.length,
-        itemBuilder: (context, index) {
-          final transfer = widget._transfers[index];
-          return TransferItem(transfer);
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return TransferForm();
-          })).then(
-            (transferReceived) => _updates(transferReceived),
-          );
-        },
-      ),
-    );
+    return ScopedModelDescendant<DarkModeModel>(
+        builder: (context, child, darkmodemodel) {
+      return Scaffold(
+        appBar: AppBar(title: Text(_appBarTitle), actions: <Widget>[
+          // action button
+          IconButton(
+            icon: Icon(Icons.lightbulb_outline),
+            onPressed: () {
+              darkmodemodel.toggle();
+            },
+          ),
+        ]),
+        body: ListView.builder(
+          itemCount: widget._transfers.length,
+          itemBuilder: (context, index) {
+            final transfer = widget._transfers[index];
+            return TransferItem(transfer);
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return TransferForm();
+            })).then(
+              (transferReceived) => _updates(transferReceived),
+            );
+          },
+        ),
+      );
+    });
   }
 
   void _updates(transferReceived) {
