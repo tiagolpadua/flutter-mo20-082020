@@ -1,7 +1,7 @@
-
 import 'package:bytebank/models/transfer.dart';
-import 'file:///C:/git/mo20-082020/bytebank/lib/screens/transfer/form.dart';
 import 'package:flutter/material.dart';
+
+import 'file:///C:/git/mo20-082020/bytebank/lib/screens/transfer/form.dart';
 
 class TransfersList extends StatefulWidget {
   final List<Transfer> _transfers = List();
@@ -15,6 +15,8 @@ class TransfersList extends StatefulWidget {
 class TransfersListState extends State<TransfersList> {
   @override
   Widget build(BuildContext context) {
+    const _appBarTitle = 'Transfers';
+
     return Scaffold(
       body: ListView.builder(
         itemCount: widget._transfers.length,
@@ -24,13 +26,22 @@ class TransfersListState extends State<TransfersList> {
         },
       ),
       appBar: AppBar(
-        title: Text('Transfers'),
+        title: Text(_appBarTitle),
+        actions: <Widget>[
+          // action button
+          IconButton(
+            icon: Icon(Icons.lightbulb_outline),
+            onPressed: () {
+              debugPrint('lightbulb pressed!');
+            },
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
           final Future future =
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
             return TransferForm();
           }));
           future.then((transferReceived) {
