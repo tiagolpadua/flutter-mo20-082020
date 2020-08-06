@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'contact_form.dart';
+import 'form.dart';
 
 class ContactsList extends StatelessWidget {
   @override

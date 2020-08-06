@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'contacts_list.dart';
+import 'contacts/list.dart';
 
 class Dashboard extends StatelessWidget {
 
