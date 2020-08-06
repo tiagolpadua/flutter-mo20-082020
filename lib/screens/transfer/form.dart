@@ -8,6 +8,7 @@ class TransferForm extends StatefulWidget {
 }
 
 class _TransferFormState extends State<TransferForm> {
+
   final TextEditingController _accountNumberFieldController =
   TextEditingController();
 
@@ -15,27 +16,37 @@ class _TransferFormState extends State<TransferForm> {
 
   @override
   Widget build(BuildContext context) {
+    const _appBarTitle = 'Creating Transfer';
+
+    const _labelFieldAccountNumber = 'Account number';
+    const _hintFieldAccountNumber = '0000';
+
+    const _labelFieldValue = 'Value';
+    const _hintFieldValue = '0.00';
+
+    const _labelConfirmButton = 'Confirm';
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Creating Transfer'),
+        title: Text(_appBarTitle),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Editor(
               controller: _accountNumberFieldController,
-              label: 'Account number',
-              hint: '0000',
+              label: _labelFieldAccountNumber,
+              hint: _hintFieldAccountNumber,
               autofocus: true,
             ),
             Editor(
               controller: _valueFieldController,
-              label: 'Value',
-              hint: '0.00',
+              label: _labelFieldValue,
+              hint: _hintFieldValue,
               icon: Icons.monetization_on,
             ),
             RaisedButton(
-              child: Text('Confirm'),
+              child: Text(_labelConfirmButton),
               onPressed: () => _createTransfer(context),
             ),
           ],

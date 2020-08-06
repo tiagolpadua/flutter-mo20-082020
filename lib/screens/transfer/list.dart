@@ -1,6 +1,6 @@
 
 import 'package:bytebank/models/transfer.dart';
-import 'package:bytebank/screens/transfer_form.dart';
+import 'file:///C:/git/mo20-082020/bytebank/lib/screens/transfer/form.dart';
 import 'package:flutter/material.dart';
 
 class TransfersList extends StatefulWidget {
