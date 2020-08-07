@@ -19,48 +19,56 @@ class TransfersListState extends State<TransfersList> {
   Widget build(BuildContext context) {
     const _appBarTitle = 'Transfers';
 
-    return ScopedModelDescendant<DarkModeModel>(
-      builder: (context, child, model) {
-        return Scaffold(
-          body: ListView.builder(
-            itemCount: widget._transfers.length,
-            itemBuilder: (context, index) {
-              final transfer = widget._transfers[index];
-              return TransferItem(transfer);
-            },
+//    return ScopedModelDescendant<DarkModeModel>(
+//      builder: (context, child, model) {
+    return Scaffold(
+      body: ListView.builder(
+        itemCount: widget._transfers.length,
+        itemBuilder: (context, index) {
+          final transfer = widget._transfers[index];
+          return TransferItem(transfer);
+        },
+      ),
+      appBar: AppBar(
+        title: Text(_appBarTitle),
+        actions: <Widget>[
+          // action button
+          ScopedModelDescendant<DarkModeModel>(
+            builder: (context, child, model) => IconButton(
+              icon: Icon(Icons.lightbulb_outline),
+              onPressed: () {
+                model.toggle();
+              },
+            ),
           ),
-          appBar: AppBar(
-            title: Text(_appBarTitle),
-            actions: <Widget>[
-              // action button
-              IconButton(
-                icon: Icon(Icons.lightbulb_outline),
-                onPressed: () {
-                  model.toggle();
-                },
-              ),
-            ],
-          ),
-          floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
-            onPressed: () {
-              final Future future =
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          final Future future = Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
                 return TransferForm();
-              }));
-              future.then((transferReceived) {
-                debugPrint('arrived at then of the future');
-                debugPrint('$transferReceived');
-                if (transferReceived != null) {
-                  setState(() {
-                    widget._transfers.add(transferReceived);
-                  });
-                }
-              });
+              },
+            ),
+          );
+          future.then(
+            (transferReceived) {
+              debugPrint('arrived at then of the future');
+              debugPrint('$transferReceived');
+              if (transferReceived != null) {
+                setState(
+                  () => widget._transfers.add(transferReceived),
+                );
+              }
             },
-          ),
-        );
-      }
+          );
+        },
+      ),
+//        );
+//      }
     );
   }
 }
