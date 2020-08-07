@@ -1,30 +1,28 @@
+import 'package:bytebank/database/app_database.dart';
 import 'package:bytebank/models/contact.dart';
 import 'package:flutter/material.dart';
 
 import 'form.dart';
 
 class ContactsList extends StatelessWidget {
-  final List<Contact> contacts = List();
-
   @override
   Widget build(BuildContext context) {
-    contacts.add(Contact(0, 'Alex', 1000));
-    contacts.add(Contact(0, 'Alex', 1000));
-    contacts.add(Contact(0, 'Alex', 1000));
-    contacts.add(Contact(0, 'Alex', 1000));
-    contacts.add(Contact(0, 'Alex', 1000));
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Contacts'),
       ),
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          final Contact contact = contacts[index];
-          return _ContactItem(contact);
-        },
-        itemCount: contacts.length,
-      ),
+      body: FutureBuilder<List<Contact>>(
+          future: findAll(),
+          builder: (context, snapshot) {
+            final List<Contact> contacts = snapshot.data;
+            return ListView.builder(
+              itemBuilder: (context, index) {
+                final Contact contact = contacts[index];
+                return _ContactItem(contact);
+              },
+              itemCount: contacts.length,
+            );
+          }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
