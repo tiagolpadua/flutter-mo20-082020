@@ -1,4 +1,5 @@
 import 'package:bytebank/models/contact.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -36,6 +37,7 @@ Future<List<Contact>> findAll() {
         );
         contacts.add(contact);
       }
+      debugPrint('$contacts');
       return contacts;
     });
   });
