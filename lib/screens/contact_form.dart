@@ -43,7 +43,7 @@ class _ContactFormState extends State<ContactForm> {
               padding: const EdgeInsets.only(top: 16.0),
               child: SizedBox(
                 width: double.maxFinite,
-                child: _createButton(
+                child: CreateButton(
                   _nameController,
                   _accountNumberController,
                 ),
@@ -56,11 +56,11 @@ class _ContactFormState extends State<ContactForm> {
   }
 }
 
-class _createButton extends StatelessWidget {
+class CreateButton extends StatelessWidget {
   final TextEditingController _nameController;
   final TextEditingController _accountNumberController;
 
-  _createButton(
+  CreateButton(
     this._nameController,
     this._accountNumberController,
   );
