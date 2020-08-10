@@ -43,15 +43,9 @@ class _ContactFormState extends State<ContactForm> {
               padding: const EdgeInsets.only(top: 16.0),
               child: SizedBox(
                 width: double.maxFinite,
-                child: RaisedButton(
-                  child: Text('Create'),
-                  onPressed: () {
-                    final String name = _nameController.text;
-                    final int accountNumber =
-                        int.tryParse(_accountNumberController.text);
-                    final Contact newContact = Contact(name, accountNumber);
-                    Navigator.pop(context, newContact);
-                  },
+                child: _createButton(
+                  _nameController,
+                  _accountNumberController,
                 ),
               ),
             )
@@ -59,5 +53,32 @@ class _ContactFormState extends State<ContactForm> {
         ),
       ),
     );
+  }
+}
+
+class _createButton extends StatelessWidget {
+  final TextEditingController _nameController;
+  final TextEditingController _accountNumberController;
+
+  _createButton(
+    this._nameController,
+    this._accountNumberController,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+        child: Text('Create'),
+        onPressed: () {
+          final String name = _nameController.text;
+          final int accountNumber = int.tryParse(_accountNumberController.text);
+          if (name != null && accountNumber != null) {
+            final Contact newContact = Contact(name, accountNumber);
+            Navigator.pop(context, newContact);
+          } else {
+            final snackBar = SnackBar(content: Text('Invalid values...'));
+            Scaffold.of(context).showSnackBar(snackBar);
+          }
+        });
   }
 }
