@@ -1,11 +1,13 @@
-import 'package:bytebank/screens/contacts/list.dart';
-import 'package:bytebank/screens/transfer/list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'database/app_database.dart';
 import 'screens/dashboard.dart';
 
-void main() => runApp(BytebankApp());
+void main() {
+  runApp(BytebankApp());
+  createDatabase();
+}
 
 class BytebankApp extends StatelessWidget {
   @override
@@ -19,8 +21,7 @@ class BytebankApp extends StatelessWidget {
           textTheme: ButtonTextTheme.primary,
         ),
       ),
-      home: ContactList(),
+      home: Dashboard(),
     );
   }
 }
-
