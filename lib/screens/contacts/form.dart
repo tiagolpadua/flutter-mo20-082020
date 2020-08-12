@@ -1,4 +1,3 @@
-import 'package:bytebank/database/app_database.dart';
 import 'package:bytebank/database/dao/contact_dao.dart';
 import 'package:bytebank/models/contact.dart';
 import 'package:flutter/material.dart';
