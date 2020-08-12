@@ -55,7 +55,6 @@ class _TransferFormState extends State<TransferForm> {
     final double value = double.tryParse(_valueFieldController.text);
     if (accountNumber != null && value != null) {
       final createdTransfer = Transfer(value, accountNumber);
-      debugPrint('$createdTransfer');
       Navigator.pop(context, createdTransfer);
     }
   }
@@ -64,7 +63,6 @@ class _TransferFormState extends State<TransferForm> {
   void dispose() {
     // Clean up the controller when the widget is removed from the
     // widget tree.
-    debugPrint('TransferForm dispose');
     _accountNumberFieldController.dispose();
     _valueFieldController.dispose();
     super.dispose();
