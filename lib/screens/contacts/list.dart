@@ -55,10 +55,6 @@ class _ContactListState extends State<ContactList> {
         },
       ),
 
-      // 1 - Save the contact on db on ContactForm
-      // 2 - Convert ContactsList to statefull widget
-      // 3 - Call setState on navigation return on ContactsList
-
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
