@@ -1,6 +1,12 @@
+import 'package:bytebank/screens/transactions/list.dart';
 import 'package:flutter/material.dart';
 
 import 'contacts/list.dart';
+
+// 1 - Download the jar file https://github.com/alura-cursos/bytebank-api/raw/runnable/server.jar
+// 2 - Check your java version: java -version
+// 3 - Run your server: java -jar server.jar
+// 4 - Test on your browser: http://localhost:8080/transactions
 
 class Dashboard extends StatelessWidget {
   @override
@@ -30,23 +36,29 @@ class Dashboard extends StatelessWidget {
               );
             },
           ),
-          Row(
-            children: [
-              _FeatureItem(
-                'Transfer',
-                Icons.monetization_on,
-                onClick: () {
-                  _showContactsList(context);
-                },
-              ),
-              _FeatureItem(
-                'Transaction Feed',
-                Icons.description,
-                onClick: () {
-                  debugPrint('Transaction Clicked');
-                },
-              ),
-            ],
+
+          // New code
+          Container(
+            height: 120,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                _FeatureItem(
+                  'Transfer',
+                  Icons.monetization_on,
+                  onClick: () {
+                    _showContactsList(context);
+                  },
+                ),
+                _FeatureItem(
+                  'Transaction Feed',
+                  Icons.description,
+                  onClick: () {
+                    _showTransactionsList(context);
+                  },
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -57,6 +69,21 @@ class Dashboard extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => ContactList(),
+      ),
+    );
+  }
+
+  // 1 - Download the addition file (chat)
+  // 2 - Extract it to a new folder "transactions" inside "screens"
+  // 3 - Rename the file to list.dart
+  // 4 - Fix the imports
+  // 5 - Extract Transaction class to its own model file (transaction.dart)
+  // 6 - Add _showTransactionsList at the dashboard and fix your navigation
+
+  _showTransactionsList(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => TransactionsList(),
       ),
     );
   }
@@ -83,7 +110,6 @@ class _FeatureItem extends StatelessWidget {
           },
           child: Container(
             padding: EdgeInsets.all(8.0),
-            height: 100,
             width: 150,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

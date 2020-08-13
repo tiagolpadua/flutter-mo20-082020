@@ -3,23 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'database/app_database.dart';
+import 'http/webclient.dart';
 import 'screens/dashboard.dart';
-
-// 1 - Adjust the return type of save method
-// 2 - Add some test code in main.dart
-// 3 - Remove id when persisting the contact
-
 void main() {
   runApp(BytebankApp());
-//  save(Contact(0, 'alex', 1000)).then(
-//    (id) {
-//      findAll().then(
-//        (contacts) {
-//          debugPrint(contacts.toString());
-//        },
-//      );
-//    },
-//  );
+  findAll();
 }
 
 class BytebankApp extends StatelessWidget {
