@@ -48,23 +48,47 @@ class _ContactFormState extends State<ContactForm> {
               padding: const EdgeInsets.only(top: 16.0),
               child: SizedBox(
                 width: double.maxFinite,
-                child: RaisedButton(
-                  child: Text('Create'),
-                  onPressed: () {
-                    final String name = _nameController.text;
-
-                    final int accountNumber =
-                        int.tryParse(_accountNumberController.text);
-
-                    final Contact newContact = Contact(0, name, accountNumber);
-                    _dao.save(newContact).then((id) => Navigator.pop(context));
-                  },
-                ),
+                child: CreateButton(nameController: _nameController, accountNumberController: _accountNumberController, dao: _dao),
               ),
             )
           ],
         ),
       ),
+    );
+  }
+}
+
+class CreateButton extends StatelessWidget {
+  const CreateButton({
+    Key key,
+    @required TextEditingController nameController,
+    @required TextEditingController accountNumberController,
+    @required ContactDao dao,
+  }) : _nameController = nameController, _accountNumberController = accountNumberController, _dao = dao, super(key: key);
+
+  final TextEditingController _nameController;
+  final TextEditingController _accountNumberController;
+  final ContactDao _dao;
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      child: Text('Create'),
+      onPressed: () {
+        final String name = _nameController.text;
+
+        final int accountNumber =
+            int.tryParse(_accountNumberController.text);
+
+        if (name != null && accountNumber != null) {
+          final Contact newContact = Contact(0, name, accountNumber);
+          _dao.save(newContact).then((id) => Navigator.pop(context));
+        } else {
+          final snackBar = SnackBar(content: Text('Invalid values...'));
+          Scaffold.of(context).showSnackBar(snackBar);
+        }
+
+      },
     );
   }
 }
