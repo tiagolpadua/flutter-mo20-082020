@@ -10,5 +10,3 @@ final Client client = HttpClientWithInterceptor.build(
 );
 
 const String baseUrl = 'http://$ip:8080/transactions';
-
-
