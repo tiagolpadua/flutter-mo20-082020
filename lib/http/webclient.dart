@@ -9,16 +9,11 @@ import 'package:http_interceptor/interceptor_contract.dart';
 import 'package:http_interceptor/models/request_data.dart';
 import 'package:http_interceptor/models/response_data.dart';
 
-// new code
 Future<List<Transaction>> findAll() async {
   final Client client = HttpClientWithInterceptor.build(
     interceptors: [LoggingInterceptor()],
     requestTimeout: Duration(seconds: 5),
   );
-
-  // 1 - Add null check on transactions list
-  // 2 - Add timeout to the request
-  // 3 - Restore the database
 
   // other one here
   final Response response = await client
@@ -30,12 +25,13 @@ Future<List<Transaction>> findAll() async {
   for (Map<String, dynamic> element in decodedJson) {
     final Map<String, dynamic> contactJson = element['contact'];
     final Transaction transaction = Transaction(
-        element['value'],
-        Contact(
-          0,
-          contactJson['name'],
-          contactJson['accountNumber'],
-        ));
+      element['value'],
+      Contact(
+        0,
+        contactJson['name'],
+        contactJson['accountNumber'],
+      ),
+    );
 
     transactions.add(transaction);
   }

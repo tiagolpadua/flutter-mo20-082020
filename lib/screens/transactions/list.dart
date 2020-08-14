@@ -1,7 +1,6 @@
 import 'package:bytebank/components/centered_message.dart';
 import 'package:bytebank/components/progress.dart';
 import 'package:bytebank/http/webclient.dart';
-import 'package:bytebank/models/contact.dart';
 import 'package:bytebank/models/transaction.dart';
 import 'package:flutter/material.dart';
 
@@ -12,14 +11,9 @@ class TransactionsList extends StatelessWidget {
       appBar: AppBar(
         title: Text('Transactions'),
       ),
-
-      // 1 - Use the switch case to deal with snapshot.connectionState
-      // 2 - Extract progress indicator from contacts list in its own file (progress.dart)
-      // 3 - Use Progress() in contacts list and on transactions list
-
       body: FutureBuilder<List<Transaction>>(
           future:
-          Future.delayed(Duration(seconds: 1)).then((value) => findAll()),
+              Future.delayed(Duration(seconds: 1)).then((value) => findAll()),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
