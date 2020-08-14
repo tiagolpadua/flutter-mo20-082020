@@ -17,7 +17,7 @@ class Contact {
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
-        'account_number': accountNumber,
+        'accountNumber': accountNumber,
       };
 
   @override
