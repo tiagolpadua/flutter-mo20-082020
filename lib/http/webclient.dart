@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:bytebank/models/contact.dart';
+import 'package:bytebank/models/transaction.dart';
 import 'package:http/http.dart';
 import 'package:http_interceptor/http_client_with_interceptor.dart';
 
@@ -5,14 +9,38 @@ import 'package:http_interceptor/interceptor_contract.dart';
 import 'package:http_interceptor/models/request_data.dart';
 import 'package:http_interceptor/models/response_data.dart';
 
-// 1 - add http_interceptor to your pubspec.yaml
-// 2 - Implement LoggingInterceptor a subclass of InterceptorContract
-// 3 - Use HttpClientWithInterceptor to build your client
-// 4 - Test everything
+// new code
+Future<List<Transaction>> findAll() async {
+  final Client client = HttpClientWithInterceptor.build(
+    interceptors: [LoggingInterceptor()],
+    requestTimeout: Duration(seconds: 5),
+  );
 
-void findAll() async {
-  Client client = HttpClientWithInterceptor.build(interceptors: [LoggingInterceptor()]);
-  final Response response = await client.get('http://192.168.0.100:8080/transactions');
+  // 1 - Add null check on transactions list
+  // 2 - Add timeout to the request
+  // 3 - Restore the database
+
+  // other one here
+  final Response response = await client
+      .get('http://192.168.0.100:8080/transactions')
+      .timeout(Duration(seconds: 5));
+  final List<dynamic> decodedJson = jsonDecode(response.body);
+  final List<Transaction> transactions = List();
+
+  for (Map<String, dynamic> element in decodedJson) {
+    final Map<String, dynamic> contactJson = element['contact'];
+    final Transaction transaction = Transaction(
+        element['value'],
+        Contact(
+          0,
+          contactJson['name'],
+          contactJson['accountNumber'],
+        ));
+
+    transactions.add(transaction);
+  }
+
+  return transactions;
 }
 
 class LoggingInterceptor implements InterceptorContract {

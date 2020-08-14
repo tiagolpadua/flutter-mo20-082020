@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'database/app_database.dart';
 import 'http/webclient.dart';
 import 'screens/dashboard.dart';
+
 void main() {
   runApp(BytebankApp());
-  findAll();
+  // new code
+  // findAll().then((transactions) => print('new transactions $transactions'));
 }
 
 class BytebankApp extends StatelessWidget {
