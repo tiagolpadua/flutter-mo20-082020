@@ -4,12 +4,18 @@ import 'package:flutter/material.dart';
 
 import 'database/app_database.dart';
 import 'http/webclient.dart';
+import 'models/transaction.dart';
 import 'screens/dashboard.dart';
 
 void main() {
   runApp(BytebankApp());
-  // new code
-  // findAll().then((transactions) => print('new transactions $transactions'));
+//  save(Transaction(200.0, Contact(0, 'Gui', 2000)))
+//
+//  // New code
+//  .then((transaction) {
+//    debugPrint('>>>>>>>>>>>>>>>>>');
+//    debugPrint('$transaction');
+//  });
 }
 
 class BytebankApp extends StatelessWidget {
